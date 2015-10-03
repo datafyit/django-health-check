@@ -20,6 +20,12 @@ class StorageHealthCheck(BaseHealthCheckBackend):
     storage = None
 
     def get_storage(self):
+        # Hack to make the comparison work in py2 and py3
+        try:
+            basestring
+        except NameError:
+            basestring = str
+
         if isinstance(self.storage, basestring):
             return get_storage_class(self.storage)()
         else:
@@ -44,7 +50,7 @@ class StorageHealthCheck(BaseHealthCheckBackend):
             f = storage.open(file_name)
             if not storage.exists(file_name):
                 raise ServiceUnavailable("File does not exist")
-            if not f.read() == file_content:
+            if not f.read().decode('utf-8') == file_content:
                 return ServiceUnavailable("File content doesn't match")
             # delete the file and make sure it is gone
             storage.delete(file_name)
