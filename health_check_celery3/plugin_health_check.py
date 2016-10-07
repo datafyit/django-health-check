@@ -1,3 +1,4 @@
+from __future__ import print_function
 from datetime import datetime, timedelta
 from time import sleep
 
@@ -17,7 +18,7 @@ class CeleryHealthCheck(BaseHealthCheckBackend):
             result = add.apply_async(args=[4, 4], expires=datetime.now() + timedelta(seconds=timeout))
             now = datetime.now()
             while (now + timedelta(seconds=3)) > datetime.now():
-                print "            checking...."
+                print("            checking....")
                 if result.ready():
                     result.forget()
                     return True
