@@ -77,4 +77,4 @@ class RetryHealthCheckBackend(BaseHealthCheckBackend):
                 logger.warning(e, extra={'attempt': attempts}, exc_info=True)
                 attempts += 1
 
-        raise ServiceUnavailable("Could not check status.")
+        raise ServiceUnavailable("All retries exhausted.")
