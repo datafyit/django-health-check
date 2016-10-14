@@ -8,7 +8,7 @@ def home(request):
     working = True
     for plugin_class, plugin in plugin_dir._registry.items():
         plugin = plugin_class()
-        if not plugin.status:  # Will return True or None
+        if plugin.status != True:
             working = False
         plugins.append(plugin)
     plugins.sort(key=lambda x: x.identifier())
